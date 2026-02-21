@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Bullion View – Pricing | Innovative X</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #00d4ff;
+            --primary-cyan: #00b8d4;
+            --primary-green: #c8ff00;
+            --primary-lime: #76ff03;
+            --dark-bg: #0a0a0a;
+            --dark-card: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --gradient-primary: linear-gradient(135deg, var(--primary-blue), var(--primary-cyan), var(--primary-lime), var(--primary-green));
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-bg); color: var(--text-primary);
+            overflow-x: hidden; line-height: 1.6;
+        }
+        .bg-animation {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.03;
+            background: radial-gradient(circle at 20% 50%, var(--primary-blue) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, var(--primary-green) 0%, transparent 50%);
+            animation: bgPulse 15s ease-in-out infinite;
+        }
+        @keyframes bgPulse { 0%,100%{opacity:0.03}50%{opacity:0.06} }
+
+        /* HEADER */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            z-index: 1000; background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,212,255,0.1);
+            transition: all 0.3s ease;
+        }
+        header.scrolled { background: rgba(10,10,10,0.98); box-shadow: 0 10px 30px rgba(0,212,255,0.1); }
+        nav {
+            max-width: 1400px; margin: 0 auto; padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo-text {
+            font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700;
+            background: var(--gradient-primary); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; background-clip: text;
+            letter-spacing: 1px; cursor: pointer; text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .logo-text:hover { filter: drop-shadow(0 0 10px rgba(0,212,255,0.5)); transform: scale(1.05); display: inline-block; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none;
+            font-weight: 500; font-size: 0.95rem; transition: all 0.3s ease; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0; height: 2px; background: var(--gradient-primary); transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+        .mobile-menu-btn {
+            display: none; background: none;
+            border: 2px solid rgba(0,212,255,0.4); border-radius: 8px;
+            color: var(--text-primary); font-size: 1.4rem;
+            cursor: pointer; padding: 0.35rem 0.7rem; line-height: 1;
+            z-index: 1100; transition: all 0.3s ease;
+        }
+        .mobile-menu-btn:hover { border-color: var(--primary-cyan); background: rgba(0,212,255,0.1); }
+
+        /* PAGE HERO */
+        .page-hero {
+            padding: 10rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            color: var(--primary-cyan); text-decoration: none; font-weight: 500;
+            margin-bottom: 2rem; transition: all 0.3s ease; font-size: 0.95rem;
+        }
+        .back-link:hover { gap: 0.8rem; }
+        .product-tag {
+            display: inline-block; background: rgba(0,212,255,0.1);
+            border: 1px solid rgba(0,212,255,0.3); color: var(--primary-cyan);
+            padding: 0.4rem 1.2rem; border-radius: 50px; font-size: 0.85rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700; margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .page-subtitle {
+            color: var(--text-secondary); font-size: 1.1rem;
+            max-width: 600px; margin: 0 auto 1rem;
+        }
+
+        /* SECTIONS */
+        section {
+            position: relative; z-index: 10;
+            padding: 4rem 2rem; max-width: 1400px; margin: 0 auto;
+        }
+        .section-title {
+            font-family: 'Orbitron', sans-serif; font-size: clamp(1.8rem,4vw,3rem); font-weight: 700;
+            text-align: center; margin-bottom: 1rem;
+            background: var(--gradient-primary); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .section-subtitle {
+            text-align: center; color: var(--text-secondary); font-size: 1rem;
+            margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;
+        }
+
+        /* PRICING GRID */
+        .pricing-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+            gap: 2rem; margin-top: 2rem; align-items: start;
+        }
+        .pricing-card {
+            background: var(--dark-card); border-radius: 20px; padding: 2.5rem 2rem;
+            border: 2px solid rgba(0,212,255,0.1); transition: all 0.4s ease;
+            position: relative; overflow: hidden; display: flex; flex-direction: column;
+        }
+        .pricing-card.featured { border-color: var(--primary-cyan); }
+        .featured-badge {
+            position: absolute; top: 1.2rem; right: 1.2rem;
+            background: var(--gradient-primary); color: var(--dark-bg);
+            padding: 0.25rem 0.8rem; border-radius: 50px;
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+        }
+        .pricing-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+            background: var(--gradient-primary); transform: scaleX(0); transition: transform 0.4s ease;
+        }
+        .pricing-card:hover { transform: translateY(-8px); border-color: var(--primary-cyan); box-shadow: 0 20px 50px rgba(0,212,255,0.25); }
+        .pricing-card:hover::before { transform: scaleX(1); }
+        .pricing-header { text-align: center; margin-bottom: 2rem; }
+        .package-name {
+            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 700;
+            margin-bottom: 0.3rem; text-transform: uppercase;
+        }
+        .pricing-card:nth-child(1) .package-name { color: #aaa; }
+        .pricing-card:nth-child(2) .package-name {
+            background: var(--gradient-primary); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .pricing-card:nth-child(3) .package-name { color: var(--primary-green); }
+        .price-label { color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .price { font-size: 2.4rem; font-weight: 700; color: var(--text-primary); margin: 0.7rem 0; }
+        .amc-price {
+            background: rgba(0,212,255,0.08); padding: 0.8rem 1rem;
+            border-radius: 10px; margin-top: 0.8rem;
+        }
+        .amc-price .price { font-size: 1.7rem; }
+        .saas-monthly-price {
+            position: relative; padding: 1.2rem; border-radius: 12px; margin-top: 1rem; overflow: hidden;
+        }
+        .saas-monthly-price::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(0,212,255,0.9), rgba(200,255,0,0.9));
+        }
+        .saas-monthly-price .price-label { position: relative; color: var(--dark-bg); font-weight: 700; }
+        .saas-monthly-price .price { position: relative; font-size: 1.9rem; color: var(--dark-bg); font-weight: 900; }
+        .saas-note { position: relative; font-size: 0.8rem; color: var(--dark-bg); margin-top: 0.3rem; font-weight: 600; opacity: 0.9; }
+        .features-list { list-style: none; margin: 1.5rem 0; flex-grow: 1; }
+        .features-list li {
+            padding: 0.65rem 0; display: flex; align-items: center; gap: 0.8rem;
+            font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .features-list li:last-child { border-bottom: none; }
+        .check-icon { color: var(--primary-cyan); font-size: 1.1rem; flex-shrink: 0; }
+
+        /* BUTTONS */
+        .btn {
+            padding: 0.9rem 2rem; font-size: 0.95rem; font-weight: 600;
+            text-decoration: none; border-radius: 50px; transition: all 0.3s ease;
+            cursor: pointer; border: none; font-family: 'Poppins', sans-serif;
+            display: inline-block; text-align: center; width: 100%; margin-top: 1.5rem;
+        }
+        .btn-primary { background: var(--gradient-primary); color: var(--dark-bg); box-shadow: 0 8px 25px rgba(0,212,255,0.3); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(0,212,255,0.5); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 2px solid var(--primary-cyan); }
+        .btn-secondary:hover { background: rgba(0,212,255,0.1); transform: translateY(-3px); }
+
+        /* CONTACT */
+        .contact-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+            gap: 3rem; margin-top: 3rem;
+        }
+        .contact-info {
+            background: var(--dark-card); padding: 3rem; border-radius: 20px;
+            border: 1px solid rgba(0,212,255,0.1);
+        }
+        .contact-item { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 2rem; }
+        .contact-icon { font-size: 2rem; flex-shrink: 0; line-height: 1; }
+        .contact-details h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .contact-details p, .contact-details a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .contact-details a:hover { color: var(--primary-cyan); }
+
+        /* FOOTER */
+        footer {
+            position: relative; z-index: 10; background: var(--dark-card);
+            padding: 1.2rem; text-align: center; border-top: 1px solid rgba(0,212,255,0.1);
+        }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* SCROLL TOP */
+        .scroll-top {
+            position: fixed; bottom: 2rem; right: 2rem; width: 50px; height: 50px;
+            background: var(--gradient-primary); border: none; border-radius: 50%;
+            color: var(--dark-bg); font-size: 1.5rem; cursor: pointer;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .scroll-top.visible { opacity: 1; visibility: visible; }
+        .scroll-top:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,212,255,0.5); }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+                flex-direction: column; justify-content: center; align-items: center;
+                background: rgba(10,10,10,0.97); gap: 2.5rem; list-style: none;
+                transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); z-index: 999;
+            }
+            .nav-links.active { transform: translateX(0); }
+            .nav-links a { font-size: 1.4rem; color: var(--text-primary); }
+            .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
+            .pricing-grid, .contact-container { grid-template-columns: 1fr; }
+            .page-hero { padding: 8rem 1.5rem 3rem; }
+            section { padding: 3rem 1.5rem; }
+            .contact-info { padding: 2rem 1.5rem; }
+        }
+        @media (max-width: 480px) {
+            .logo-text { font-size: 1.2rem; }
+            nav { padding: 0.8rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header id="header">
+        <nav>
+            <a href="index.html" class="logo-text">Innovative X</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#products">Products</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <div class="page-hero">
+        <a href="index.html#products" class="back-link">← Back to Products</a>
+        <div class="product-tag">💰 Live Bullion View</div>
+        <h1 class="page-title">Pricing Plans</h1>
+        <p class="page-subtitle">Choose the perfect package for your bullion business. All plans include live MCX price integration.</p>
+    </div>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <div class="pricing-grid">
+
+            <!-- Silver -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="package-name">Silver</h3>
+                    <p class="price-label">One-Time Cost</p>
+                    <div class="price">₹19,620</div>
+                    <div class="amc-price">
+                        <p class="price-label">Annual AMC</p>
+                        <div class="price">₹16,620</div>
+                    </div>
+                    <div class="saas-monthly-price">
+                        <p class="price-label">OR SaaS Monthly Plan</p>
+                        <div class="price">₹1,650/mo</div>
+                        <p class="saas-note">No setup fees • Cancel anytime</p>
+                    </div>
+                </div>
+                <ul class="features-list">
+                    <li><span class="check-icon">✓</span> Bullion with GST Prices</li>
+                    <li><span class="check-icon">✓</span> Live MCX Prices</li>
+                    <li><span class="check-icon">✓</span> Admin Panel Web</li>
+                    <li><span class="check-icon">✓</span> API Charges Included</li>
+                    <li><span class="check-icon">✓</span> SSL Charges Included</li>
+                    <li><span class="check-icon">✓</span> Silver Server Charges</li>
+                </ul>
+                <a href="#contact" class="btn btn-secondary">Get Started</a>
+            </div>
+
+            <!-- Gold (Featured) -->
+            <div class="pricing-card featured">
+                <span class="featured-badge">⭐ Popular</span>
+                <div class="pricing-header">
+                    <h3 class="package-name">Gold</h3>
+                    <p class="price-label">One-Time Cost</p>
+                    <div class="price">₹27,000</div>
+                    <div class="amc-price">
+                        <p class="price-label">Annual AMC</p>
+                        <div class="price">₹20,000</div>
+                    </div>
+                    <div class="saas-monthly-price">
+                        <p class="price-label">OR SaaS Monthly Plan</p>
+                        <div class="price">₹2,400/mo</div>
+                        <p class="saas-note">No setup fees • Cancel anytime</p>
+                    </div>
+                </div>
+                <ul class="features-list">
+                    <li><span class="check-icon">✓</span> Bullion with GST Prices</li>
+                    <li><span class="check-icon">✓</span> Live MCX Prices</li>
+                    <li><span class="check-icon">✓</span> Bullion W/O GST Prices</li>
+                    <li><span class="check-icon">✓</span> News &amp; Events</li>
+                    <li><span class="check-icon">✓</span> Bank Details</li>
+                    <li><span class="check-icon">✓</span> Contact Us</li>
+                    <li><span class="check-icon">✓</span> About Us</li>
+                    <li><span class="check-icon">✓</span> Booking Desk</li>
+                    <li><span class="check-icon">✓</span> WhatsApp Chat Button</li>
+                    <li><span class="check-icon">✓</span> Add to Home Screen</li>
+                    <li><span class="check-icon">✓</span> Admin Panel Web</li>
+                    <li><span class="check-icon">✓</span> API Charges Included</li>
+                    <li><span class="check-icon">✓</span> SSL Charges Included</li>
+                    <li><span class="check-icon">✓</span> Silver Server Charges</li>
+                    <li><span class="check-icon">✓</span> 12×6 Support</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Get Started</a>
+            </div>
+
+            <!-- Platinum -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="package-name">Platinum</h3>
+                    <p class="price-label">One-Time Cost</p>
+                    <div class="price">₹35,000</div>
+                    <div class="amc-price">
+                        <p class="price-label">Annual AMC</p>
+                        <div class="price">₹25,000</div>
+                    </div>
+                    <div class="saas-monthly-price">
+                        <p class="price-label">OR SaaS Monthly Plan</p>
+                        <div class="price">₹3,200/mo</div>
+                        <p class="saas-note">No setup fees • Cancel anytime</p>
+                    </div>
+                </div>
+                <ul class="features-list">
+                    <li><span class="check-icon">✓</span> Bullion with GST Prices</li>
+                    <li><span class="check-icon">✓</span> Live MCX Prices</li>
+                    <li><span class="check-icon">✓</span> Bullion W/O GST Prices</li>
+                    <li><span class="check-icon">✓</span> News &amp; Events</li>
+                    <li><span class="check-icon">✓</span> Live Coin Price</li>
+                    <li><span class="check-icon">✓</span> Bank Details</li>
+                    <li><span class="check-icon">✓</span> Contact Us</li>
+                    <li><span class="check-icon">✓</span> About Us</li>
+                    <li><span class="check-icon">✓</span> Booking Desk</li>
+                    <li><span class="check-icon">✓</span> WhatsApp Chat Button</li>
+                    <li><span class="check-icon">✓</span> Add to Home Screen</li>
+                    <li><span class="check-icon">✓</span> Admin Panel Web / Mobile</li>
+                    <li><span class="check-icon">✓</span> Multiple Users in Admin</li>
+                    <li><span class="check-icon">✓</span> Customize UI</li>
+                    <li><span class="check-icon">✓</span> Live Header Rates</li>
+                    <li><span class="check-icon">✓</span> API Charges Included</li>
+                    <li><span class="check-icon">✓</span> SSL Charges Included</li>
+                    <li><span class="check-icon">✓</span> Silver Server Charges</li>
+                    <li><span class="check-icon">✓</span> 12×6 Support</li>
+                </ul>
+                <a href="#contact" class="btn btn-secondary">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">Have questions about pricing or want a demo? We're here to help.</p>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="contact-icon">📧</span>
+                    <div class="contact-details">
+                        <h3>Email</h3>
+                        <a href="mailto:info@innovativex.in">info@innovativex.in</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📱</span>
+                    <div class="contact-details">
+                        <h3>Phone / WhatsApp</h3>
+                        <a href="tel:+918196962922">+91 8196962922</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">🕒</span>
+                    <div class="contact-details">
+                        <h3>Business Hours</h3>
+                        <p>Monday - Saturday<br>9:00 AM - 6:00 PM IST</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-info">
+                <h3 style="margin-bottom:1.5rem;font-family:'Orbitron',sans-serif;font-size:1.3rem;">What's Included in All Plans</h3>
+                <ul style="list-style:none;color:var(--text-secondary);line-height:2.5;">
+                    <li>🔒 SSL Security Certificate</li>
+                    <li>⚡ MCX Live API Integration</li>
+                    <li>📦 Hosting &amp; Server Setup</li>
+                    <li>🧑‍💻 Admin Panel Access</li>
+                    <li>🚀 Quick Deployment</li>
+                    <li>🔄 Regular Updates</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Innovative X. All rights reserved. | We Design • We Build • You Grow</p>
+    </footer>
+
+    <button class="scroll-top" id="scrollTop">↑</button>
+
+    <script>
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isOpen = navLinks.classList.toggle('active');
+            mobileMenuBtn.textContent = isOpen ? '✕' : '☰';
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+
+        navLinks.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+                document.body.style.overflow = '';
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (navLinks.classList.contains('active') &&
+                !navLinks.contains(e.target) && e.target !== mobileMenuBtn) {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Header scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Scroll to top
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', function() {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+        });
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth anchor scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.05 });
+
+        document.querySelectorAll('.pricing-card, .contact-info').forEach(function(el) {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
