@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Bullion View – Help | Innovative X</title>
+    <link rel="icon" type="image/png" href="assets/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <link rel="shortcut icon" href="assets/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+    <link rel="manifest" href="assets/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-blue: #00d4ff;
+            --primary-cyan: #00b8d4;
+            --primary-green: #c8ff00;
+            --primary-lime: #76ff03;
+            --dark-bg: #0a0a0a;
+            --dark-card: #1a1a1a;
+            --dark-elevated: #222;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --gradient-primary: linear-gradient(135deg, var(--primary-blue), var(--primary-cyan), var(--primary-lime), var(--primary-green));
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-bg); color: var(--text-primary);
+            overflow-x: hidden; line-height: 1.6;
+        }
+        .bg-animation {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.03;
+            background: radial-gradient(circle at 20% 50%, var(--primary-blue) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, var(--primary-green) 0%, transparent 50%);
+            animation: bgPulse 15s ease-in-out infinite;
+        }
+        @keyframes bgPulse { 0%,100%{opacity:0.03}50%{opacity:0.06} }
+
+        /* HEADER */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            z-index: 1000; background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,212,255,0.1);
+            transition: all 0.3s ease;
+        }
+        header.scrolled { background: rgba(10,10,10,0.98); box-shadow: 0 10px 30px rgba(0,212,255,0.1); }
+        nav {
+            max-width: 1400px; margin: 0 auto; padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo-text {
+            font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700;
+            background: var(--gradient-primary); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; background-clip: text;
+            letter-spacing: 1px; cursor: pointer; text-decoration: none; transition: all 0.3s ease;
+        }
+        .logo-text:hover { filter: drop-shadow(0 0 10px rgba(0,212,255,0.5)); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none;
+            font-weight: 500; font-size: 0.95rem; transition: all 0.3s ease; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0; height: 2px; background: var(--gradient-primary); transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--text-primary); }
+        .nav-links a.active::after { width: 100%; }
+        .mobile-menu-btn {
+            display: none; background: none;
+            border: 2px solid rgba(0,212,255,0.4); border-radius: 8px;
+            color: var(--text-primary); font-size: 1.4rem;
+            cursor: pointer; padding: 0.35rem 0.7rem; line-height: 1;
+            z-index: 1100; transition: all 0.3s ease;
+        }
+        .mobile-menu-btn:hover { border-color: var(--primary-cyan); background: rgba(0,212,255,0.1); }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            position: relative; z-index: 10;
+            max-width: 1400px; margin: 0 auto;
+            padding: 7rem 2rem 0;
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 0.85rem; color: var(--text-secondary); flex-wrap: wrap;
+        }
+        .breadcrumb a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .breadcrumb a:hover { color: var(--primary-cyan); }
+        .breadcrumb span { color: var(--text-secondary); }
+        .breadcrumb .current { color: var(--text-primary); }
+
+        /* PAGE HEADER */
+        .page-header {
+            position: relative; z-index: 10;
+            max-width: 1400px; margin: 0 auto;
+            padding: 2rem 2rem 0;
+        }
+        .product-tag {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);
+            color: var(--primary-cyan); padding: 0.35rem 1rem;
+            border-radius: 50px; font-size: 0.8rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;
+        }
+        .page-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
+            margin-bottom: 0.6rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .page-header p { color: var(--text-secondary); font-size: 1rem; max-width: 600px; }
+        .page-header-meta {
+            display: flex; align-items: center; gap: 1.5rem;
+            margin-top: 1.2rem; flex-wrap: wrap;
+        }
+        .meta-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; color: var(--text-secondary); }
+
+        /* DIVIDER */
+        .divider {
+            position: relative; z-index: 10;
+            max-width: 1400px; margin: 2rem auto 0;
+            padding: 0 2rem;
+        }
+        .divider hr { border: none; border-top: 1px solid rgba(255,255,255,0.07); }
+
+        /* LAYOUT: SIDEBAR + CONTENT */
+        .layout {
+            position: relative; z-index: 10;
+            max-width: 1400px; margin: 0 auto;
+            padding: 2.5rem 2rem 6rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: sticky;
+            top: 90px;
+        }
+        .sidebar-title {
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 2px; color: var(--text-secondary);
+            margin-bottom: 1rem; padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .sidebar-search {
+            position: relative; margin-bottom: 1.2rem;
+        }
+        .sidebar-search input {
+            width: 100%; padding: 0.6rem 0.8rem 0.6rem 2.2rem;
+            background: var(--dark-card); border: 1px solid rgba(0,212,255,0.15);
+            border-radius: 8px; color: var(--text-primary);
+            font-family: 'Poppins', sans-serif; font-size: 0.82rem;
+            outline: none; transition: all 0.3s ease;
+        }
+        .sidebar-search input::placeholder { color: #555; }
+        .sidebar-search input:focus { border-color: var(--primary-cyan); }
+        .sidebar-search-icon {
+            position: absolute; left: 0.6rem; top: 50%; transform: translateY(-50%);
+            font-size: 0.9rem; pointer-events: none;
+        }
+        .article-nav { list-style: none; }
+        .article-nav li { margin-bottom: 0.2rem; }
+        .article-nav a {
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.6rem 0.8rem; border-radius: 8px;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.85rem; transition: all 0.25s ease;
+            border: 1px solid transparent;
+        }
+        .article-nav a:hover { color: var(--text-primary); background: rgba(0,212,255,0.06); border-color: rgba(0,212,255,0.1); }
+        .article-nav a.active { color: var(--primary-cyan); background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.2); }
+        .article-nav .num {
+            width: 20px; height: 20px; border-radius: 50%;
+            background: rgba(0,212,255,0.1); color: var(--primary-cyan);
+            font-size: 0.7rem; font-weight: 700; display: flex;
+            align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .article-nav a.active .num { background: var(--primary-cyan); color: var(--dark-bg); }
+
+        /* ARTICLES AREA */
+        .articles-area { min-width: 0; }
+
+        /* ARTICLE CARD */
+        .article-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(0,212,255,0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            scroll-margin-top: 100px;
+            transition: border-color 0.3s ease;
+        }
+        .article-card:hover { border-color: rgba(0,212,255,0.25); }
+        .article-number {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1.5px; color: var(--primary-cyan); margin-bottom: 0.8rem;
+        }
+        .article-number::before {
+            content: ''; display: block; width: 20px; height: 2px;
+            background: var(--gradient-primary); border-radius: 2px;
+        }
+        .article-card h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 700;
+            color: var(--text-primary); margin-bottom: 1.5rem; line-height: 1.4;
+        }
+
+        /* ARTICLE IMAGE */
+        .article-image-wrap {
+            width: 100%; border-radius: 12px; overflow: hidden;
+            border: 1px solid rgba(0,212,255,0.15);
+            margin-bottom: 1.8rem;
+            background: #111;
+            position: relative;
+        }
+        .article-image-wrap img {
+            width: 100%; height: auto; display: block;
+            transition: transform 0.4s ease;
+        }
+        .article-image-wrap:hover img { transform: scale(1.02); }
+        /* Click to expand */
+        .article-image-wrap { cursor: zoom-in; }
+
+        /* ARTICLE CONTENT */
+        .article-body { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.85; }
+        .article-body p { margin-bottom: 1rem; }
+        .article-body p:last-child { margin-bottom: 0; }
+        .article-body strong { color: var(--text-primary); font-weight: 600; }
+        .article-body .step {
+            display: flex; gap: 1rem; align-items: flex-start;
+            background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.1);
+            border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 0.8rem;
+        }
+        .article-body .step-num {
+            width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+            background: var(--gradient-primary); color: var(--dark-bg);
+            font-weight: 700; font-size: 0.78rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .article-body .step-text { flex: 1; font-size: 0.92rem; padding-top: 0.1rem; }
+        .article-body .tip {
+            background: rgba(200,255,0,0.05); border-left: 3px solid var(--primary-green);
+            border-radius: 0 8px 8px 0; padding: 0.9rem 1.2rem; margin-top: 1.2rem;
+            font-size: 0.88rem;
+        }
+        .article-body .tip strong { color: var(--primary-green); }
+
+        /* IMAGE LIGHTBOX */
+        .lightbox {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.92); z-index: 9999;
+            align-items: center; justify-content: center; padding: 2rem;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: 12px; object-fit: contain; }
+        .lightbox-close {
+            position: absolute; top: 1.5rem; right: 1.5rem;
+            background: rgba(255,255,255,0.1); border: none; color: #fff;
+            font-size: 1.5rem; cursor: pointer; width: 44px; height: 44px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s;
+        }
+        .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+        /* BOTTOM NAV */
+        .article-nav-bottom {
+            display: flex; justify-content: space-between; gap: 1rem;
+            margin-top: 1rem; flex-wrap: wrap;
+        }
+        .nav-btn {
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.8rem 1.4rem; border-radius: 10px;
+            background: var(--dark-card); border: 1px solid rgba(0,212,255,0.15);
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.85rem; transition: all 0.3s ease; flex: 1; min-width: 140px;
+            cursor: pointer; font-family: 'Poppins', sans-serif;
+        }
+        .nav-btn:hover { border-color: var(--primary-cyan); color: var(--text-primary); background: rgba(0,212,255,0.06); }
+        .nav-btn.next { justify-content: flex-end; text-align: right; }
+
+        /* HELP BANNER */
+        .help-banner {
+            background: var(--dark-card); border: 1px solid rgba(0,212,255,0.15);
+            border-radius: 16px; padding: 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1.5rem; flex-wrap: wrap; margin-top: 3rem;
+            position: relative; overflow: hidden;
+        }
+        .help-banner::before {
+            content: ''; position: absolute; top: -50%; right: -10%;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(0,212,255,0.05) 0%, transparent 70%);
+        }
+        .help-banner h3 { font-size: 1.1rem; margin-bottom: 0.3rem; position: relative; }
+        .help-banner p { color: var(--text-secondary); font-size: 0.88rem; position: relative; }
+        .help-banner-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; position: relative; }
+        .btn {
+            padding: 0.7rem 1.5rem; font-size: 0.88rem; font-weight: 600;
+            text-decoration: none; border-radius: 50px; transition: all 0.3s ease;
+            cursor: pointer; border: none; font-family: 'Poppins', sans-serif; display: inline-block;
+        }
+        .btn-primary { background: var(--gradient-primary); color: var(--dark-bg); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,212,255,0.35); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 2px solid var(--primary-cyan); }
+        .btn-secondary:hover { background: rgba(0,212,255,0.1); transform: translateY(-2px); }
+
+        /* FOOTER */
+        footer {
+            position: relative; z-index: 10; background: var(--dark-card);
+            padding: 1.2rem; text-align: center; border-top: 1px solid rgba(0,212,255,0.1);
+        }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* SCROLL TOP */
+        .scroll-top {
+            position: fixed; bottom: 2rem; right: 2rem; width: 46px; height: 46px;
+            background: var(--gradient-primary); border: none; border-radius: 50%;
+            color: var(--dark-bg); font-size: 1.3rem; cursor: pointer;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .scroll-top.visible { opacity: 1; visibility: visible; }
+        .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,212,255,0.5); }
+
+        /* MOBILE */
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; margin-bottom: 2rem; }
+            .article-nav {
+                display: flex; flex-wrap: wrap; gap: 0.5rem;
+            }
+            .article-nav li { margin-bottom: 0; }
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+                flex-direction: column; justify-content: center; align-items: center;
+                background: rgba(10,10,10,0.97); gap: 2.5rem; list-style: none;
+                transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); z-index: 999;
+            }
+            .nav-links.active { transform: translateX(0); }
+            .nav-links a { font-size: 1.4rem; color: var(--text-primary); }
+            .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
+            .breadcrumb { padding: 6rem 1.5rem 0; }
+            .page-header, .divider { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .layout { padding: 2rem 1.5rem 5rem; gap: 2rem; }
+            .article-card { padding: 1.8rem 1.4rem; }
+            .help-banner { flex-direction: column; }
+            .help-banner-actions { width: 100%; }
+            .btn { width: 100%; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .logo-text { font-size: 1.2rem; }
+            nav { padding: 0.8rem 1rem; }
+        }
+
+        /* Search hide */
+        .article-card.hidden { display: none; }
+        .sidebar-nav-item.hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <nav>
+            <a href="index.html" class="logo-text">Innovative X</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#products">Products</a></li>
+                <li><a href="helpdesk.html" class="active">Helpdesk</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html">🏠 Home</a>
+        <span>›</span>
+        <a href="helpdesk.html">Helpdesk</a>
+        <span>›</span>
+        <span class="current">Live Bullion View Web App</span>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="product-tag">🪙 Live Bullion View Web App</div>
+        <h1>Help & Guides</h1>
+        <p>Step-by-step articles to help you set up, manage, and get the most out of your Live Bullion View platform.</p>
+        <div class="page-header-meta">
+            <span class="meta-item">📄 <span id="articleCount">1</span> Articles</span>
+            <span class="meta-item">🕒 Updated regularly</span>
+        </div>
+    </div>
+
+    <div class="divider"><hr></div>
+
+    <!-- Main Layout -->
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <p class="sidebar-title">📋 In This Guide</p>
+            <div class="sidebar-search">
+                <span class="sidebar-search-icon">🔍</span>
+                <input type="text" id="sidebarSearch" placeholder="Search articles...">
+            </div>
+            <ul class="article-nav" id="articleNav">
+                <!-- Auto-generated by JS -->
+            </ul>
+        </aside>
+
+        <!-- ARTICLES -->
+        <div class="articles-area" id="articlesArea">
+
+            <!-- ============================================================
+                 ARTICLE 1
+                 ============================================================ -->
+            <div class="article-card" id="article-1" data-title="Admin Login Guide How to Access the Dashboard">
+                <div class="article-number">Article 01</div>
+                <h2>Admin Login Guide: How to Access the Dashboard</h2>
+
+                <div class="article-body">
+                    <p>Follow these simple steps to log in to your admin panel and access the dashboard:</p>
+
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-text">Open your browser and visit <strong>partner.innovativex.in</strong></div>
+                    </div>
+
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/admin-login1.png')" style="margin: 1.2rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/admin-login1.png"
+                             alt="Admin Login Page"
+                             loading="lazy"
+                             onerror="this.parentElement.style.display='none'">
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-text">On the login page, <strong>select your company</strong> from the dropdown — for example, <strong>Demo InnovativeX</strong>.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-text">Enter your <strong>Username</strong> and <strong>Password</strong> in the respective fields.</div>
+                    </div>
+
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/admin-login2.png')" style="margin: 1.2rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/admin-login2.png"
+                             alt="Admin Dashboard Home Page"
+                             loading="lazy"
+                             onerror="this.parentElement.style.display='none'">
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-text">Click the <strong>Login</strong> button. You will be redirected to the <strong>Dashboard Home Page</strong>.</div>
+                    </div>
+
+                    <div class="tip">
+                        <strong>💡 Tip:</strong> If you forget your password, contact Innovative X support at <strong>info@innovativex.in</strong> or call <strong>+91 8196962922</strong>.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 ARTICLE 2
+                 ============================================================ -->
+            <div class="article-card" id="article-2" data-title="Selecting MCX Contracts Gold and Silver Options Setup">
+                <div class="article-number">Article 02</div>
+                <h2>Selecting MCX Contracts: Gold and Silver Options Setup</h2>
+
+                <div class="article-body">
+                    <p>Learn how to select and configure MCX contracts for Gold and Silver to display live prices on your frontend.</p>
+
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-text">From the dashboard, navigate to <strong>Select Contract</strong>.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-text">You will see two tabs: <strong>Gold</strong> and <strong>Gold Next</strong>. You can select one MCX contract in each tab. The same setup applies for <strong>Silver</strong> as well.</div>
+                    </div>
+
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/mcx1.png')" style="margin: 1.2rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/mcx1.png"
+                             alt="Select Contract - Gold and Gold Next Tabs"
+                             loading="lazy"
+                             onerror="this.parentElement.style.display='none'">
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-text">For example, select <strong>Gold April 2026 Future</strong> in the <strong>Gold</strong> tab, and <strong>Gold June 2026 Future</strong> in the <strong>Gold Next</strong> tab.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-text">The live MCX prices for your selected contracts will be displayed accordingly on the <strong>frontend</strong>.</div>
+                    </div>
+
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/mcx2.png')" style="margin: 1.2rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/mcx2.png"
+                             alt="Live MCX Prices on Frontend"
+                             loading="lazy"
+                             onerror="this.parentElement.style.display='none'">
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">5</div>
+                        <div class="step-text">Repeat the same steps for <strong>Silver</strong> — select your preferred Silver contracts in the Silver and Silver Next tabs.</div>
+                    </div>
+
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/mcx3.png')" style="margin: 1.2rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/mcx3.png"
+                             alt="Silver Contract Setup"
+                             loading="lazy"
+                             onerror="this.parentElement.style.display='none'">
+                    </div>
+
+                    <div class="tip">
+                        <strong>💡 Tip:</strong> Always select the <strong>nearest active contract</strong> in the Gold/Silver tab and the <strong>next expiring contract</strong> in Gold Next/Silver Next for accurate live prices.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 ARTICLE 3
+                 ============================================================ -->
+            <div class="article-card" id="article-3" data-title="Gold Coin Add Edit Calculation Guide">
+                <div class="article-number">Article 03</div>
+                <h2>Gold Coin – Add, Edit and Calculation Guide</h2>
+                <div class="article-body">
+
+                    <p><strong>Step 1: Navigate to Gold Coin Section</strong></p>
+                    <p>Once you log in to the dashboard, click on <strong>Gold Coin</strong> in the Navigation Panel. You will see two options:</p>
+                    <div class="step"><div class="step-num">📋</div><div class="step-text"><strong>Add Gold Coin</strong> — Create a new coin entry.</div></div>
+                    <div class="step"><div class="step-num">👁️</div><div class="step-text"><strong>View Gold Coin</strong> — Edit or delete existing coins.</div></div>
+
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/goldcoin.png')" style="margin:1.2rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/goldcoin.png" alt="Gold Coin Navigation" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    </div>
+
+                    <div style="background:rgba(255,180,0,0.07);border:1px solid rgba(255,180,0,0.35);border-left:4px solid #ffb400;border-radius:10px;padding:1.2rem 1.5rem;margin:1.5rem 0;">
+                        <p style="color:#ffb400;font-weight:700;margin-bottom:0.5rem;">⚠️ Important — Understand How Calculation Works First</p>
+                        <p style="color:var(--text-secondary);font-size:0.92rem;">Before adding a coin, please understand how the system calculates the final price. Read the step-by-step explanation below before filling the form.</p>
+                    </div>
+
+                    <p style="margin-top:1.5rem;"><strong style="font-size:1rem;color:var(--primary-cyan);">📘 Scenario 1 – Higher Purity (99.99%)</strong></p>
+                    <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:1.2rem 1.5rem;margin:1rem 0;">
+                        <p style="font-weight:600;margin-bottom:0.8rem;color:var(--text-primary);">Example Details:</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1.5rem;font-size:0.88rem;color:var(--text-secondary);">
+                            <span>📦 Coin Weight</span><span style="color:#fff;">5 grams</span>
+                            <span>✨ Purity</span><span style="color:#fff;">99.99%</span>
+                            <span>🔨 Making Charge</span><span style="color:#fff;">₹1,000</span>
+                            <span>📈 Premium</span><span style="color:#fff;">+₹500</span>
+                            <span>📊 Base MCX Price (10g)</span><span style="color:#fff;">₹60,000</span>
+                            <span>🧾 GST</span><span style="color:#fff;">3%</span>
+                        </div>
+                    </div>
+                    <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Add Premium:</strong> ₹60,000 + ₹500 = <strong>₹60,500</strong></div></div>
+                    <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Purity Adjustment (above 99.5):</strong> Difference = 99.99 − 99.5 = 0.49 → Extra = (0.49/100) × 60,500 = ₹296 → Price = <strong>₹60,796</strong></div></div>
+                    <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Calculate for Weight:</strong> Per gram = 60,796 / 10 = 6,079.6 → For 5g = 6,079.6 × 5 = <strong>₹30,398</strong></div></div>
+                    <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Add Making Charges:</strong> ₹30,398 + ₹1,000 = <strong>₹31,398</strong></div></div>
+                    <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Add GST (3%):</strong> ₹31,398 × 3% = ₹942 → Final = <strong>₹32,340</strong></div></div>
+                    <div style="background:rgba(118,255,3,0.07);border:1px solid rgba(118,255,3,0.3);border-radius:8px;padding:0.9rem 1.2rem;margin:0.8rem 0;">
+                        <p style="color:var(--primary-lime);font-weight:700;">✅ Final Coin Price = ₹32,340</p>
+                    </div>
+
+                    <p style="margin-top:1.8rem;"><strong style="font-size:1rem;color:var(--primary-cyan);">📗 Scenario 2 – Lower Purity (91.6%)</strong></p>
+                    <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:1.2rem 1.5rem;margin:1rem 0;">
+                        <p style="font-weight:600;margin-bottom:0.8rem;color:var(--text-primary);">Example Details:</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1.5rem;font-size:0.88rem;color:var(--text-secondary);">
+                            <span>📦 Coin Weight</span><span style="color:#fff;">5 grams</span>
+                            <span>✨ Purity</span><span style="color:#fff;">91.6%</span>
+                            <span>🔨 Making Charge</span><span style="color:#fff;">₹0</span>
+                            <span>📈 Premium</span><span style="color:#fff;">+₹500</span>
+                            <span>📊 Base MCX Price (10g)</span><span style="color:#fff;">₹60,000</span>
+                            <span>🧾 GST</span><span style="color:#fff;">3%</span>
+                        </div>
+                    </div>
+                    <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Add Premium:</strong> ₹60,000 + ₹500 = <strong>₹60,500</strong></div></div>
+                    <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Purity Adjustment (below 99.5):</strong> Price = (91.6/100) × 60,500 = <strong>₹55,418</strong></div></div>
+                    <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Calculate for Weight:</strong> Per gram = 55,418/10 = 5,541.8 → For 5g = 5,541.8 × 5 = <strong>₹27,709</strong></div></div>
+                    <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Making Charges:</strong> ₹0 → Before GST = <strong>₹27,709</strong></div></div>
+                    <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Add GST (3%):</strong> ₹27,709 × 3% = ₹831 → Final = <strong>₹28,540</strong></div></div>
+                    <div style="background:rgba(118,255,3,0.07);border:1px solid rgba(118,255,3,0.3);border-radius:8px;padding:0.9rem 1.2rem;margin:0.8rem 0;">
+                        <p style="color:var(--primary-lime);font-weight:700;">✅ Final Coin Price = ₹28,540</p>
+                    </div>
+
+                    <div style="background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.2);border-radius:12px;padding:1.5rem;margin:1.8rem 0;">
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:1rem;">🔎 How Purity Works in Our System</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">In our system, <strong style="color:#fff;">99.5% purity is the base standard</strong> — the common base used in the Indian bullion market.</p>
+                        <div class="step"><div class="step-num" style="background:rgba(255,255,255,0.08);color:#fff;font-size:1rem;">＝</div><div class="step-text"><strong>Purity = 99.5</strong> → Base rate used directly. No addition or deduction.</div></div>
+                        <div class="step"><div class="step-num" style="background:rgba(118,255,3,0.15);color:var(--primary-lime);font-size:1rem;">↑</div><div class="step-text"><strong>Purity above 99.5</strong> (e.g. 99.99%) → Extra value added. Price increases slightly.</div></div>
+                        <div class="step"><div class="step-num" style="background:rgba(255,80,80,0.15);color:#ff6b6b;font-size:1rem;">↓</div><div class="step-text"><strong>Purity below 99.5</strong> (e.g. 91.6%) → Price calculated proportionally. Price decreases.</div></div>
+                    </div>
+
+                    <p style="margin-top:1.8rem;font-size:1rem;"><strong>📝 Step-by-Step: How to Fill the Add Gold Coin Form</strong></p>
+                    <p style="margin-bottom:1.2rem;">Now that you understand the calculation, here is how to fill in each field:</p>
+
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/full_form.png')" style="margin:1.2rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/full_form.png" alt="Add Gold Coin Full Form" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    </div>
+
+                    <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Select Supplier</strong> — Choose the supplier (e.g. Kundan or MMTC). This determines which tab the coin appears under on the frontend. Kundan → Kundan tab, MMTC → MMTC tab.</div></div>
+
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/supplier.png')" style="margin:1rem 0 1.2rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/supplier.png" alt="Select Supplier" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    </div>
+
+                    <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Available / Not Available</strong> — Toggle to set coin availability. If "Not Available," the frontend shows it as <strong>Out of Stock</strong>.</div></div>
+                    <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Select Contract Type</strong> — Select <strong>Gold</strong> or <strong>Gold Next</strong>. The system links this coin to whichever MCX contract you assigned to that slot.<br><br>Example: Gold April 2026 Future in Gold tab → choose <strong>Gold</strong>. Gold June 2026 Future in Gold Next → choose <strong>Gold Next</strong>.</div></div>
+                    <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Shape of Coin</strong> — E.g. Round, Rectangular, Rectangle Tree, Color Coin, etc.</div></div>
+                    <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Weight</strong> — Enter weight in grams (e.g. 5, 10). Final price is calculated based on this.</div></div>
+                    <div class="step"><div class="step-num">6</div><div class="step-text"><strong>Making Charges</strong> — Use <strong>+</strong> to increase or <strong>−</strong> to decrease. Example: +2500 or -500.</div></div>
+                    <div class="step">
+                        <div class="step-num">7</div>
+                        <div class="step-text">
+                            <strong>Manual / Automatic Premium</strong><br><br>
+                            <strong>Manual:</strong> Enter premium/discount directly on each coin (e.g. +500 or -500).<br><br>
+                            <strong>Automatic:</strong> Link the coin to a bullion script. When you update that script's premium, all linked coins update automatically — no need to edit each coin.<br><br>
+                            <div style="background:rgba(0,212,255,0.06);border-left:3px solid var(--primary-cyan);border-radius:0 8px 8px 0;padding:0.8rem 1rem;margin-top:0.5rem;font-size:0.9rem;">
+                                💡 <strong style="color:var(--primary-cyan);">Recommended:</strong> Create one script per supplier and link all their coins to it using Automatic mode. Change the premium once — all linked coins update instantly!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step"><div class="step-num">8</div><div class="step-text"><strong>Notes</strong> — Add special details. E.g. "Gold Coin 10g with box only, with card packing."</div></div>
+                    <div class="step"><div class="step-num">9</div><div class="step-text"><strong>Purity</strong> — Select purity level (e.g. 99.99%, 91.6%). This directly affects the final price as explained above.</div></div>
+                    <div class="step"><div class="step-num">10</div><div class="step-text"><strong>GST</strong> — Select applicable GST (e.g. 3%). Applied on the final amount after all charges.</div></div>
+
+                    <div class="tip"><strong>💡 Tip:</strong> Once all fields are filled, submit the form. The system automatically calculates the final coin price based on your inputs and the live MCX rate.</div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 ARTICLE 4
+                 ============================================================ -->
+            <div class="article-card" id="article-4" data-title="Silver Coin Add Edit Calculation Guide">
+                <div class="article-number">Article 04</div>
+                <h2>Silver Coin – Add, Edit and Calculation Guide</h2>
+                <div class="article-body">
+
+                    <p><strong>Step 1: Navigate to Silver Coin Section</strong></p>
+                    <p>Once you log in to the dashboard, click on <strong>Silver Coin</strong> in the Navigation Panel. You will see two options:</p>
+                    <div class="step"><div class="step-num">📋</div><div class="step-text"><strong>Add Silver Coin</strong> — Create a new silver coin entry.</div></div>
+                    <div class="step"><div class="step-num">👁️</div><div class="step-text"><strong>View Silver Coins</strong> — Edit or delete existing silver coins.</div></div>
+
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/silvercoin.png')" style="margin:1.2rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/silvercoin.png" alt="Silver Coin Navigation" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    </div>
+
+                    <div style="background:rgba(255,180,0,0.07);border:1px solid rgba(255,180,0,0.35);border-left:4px solid #ffb400;border-radius:10px;padding:1.2rem 1.5rem;margin:1.5rem 0;">
+                        <p style="color:#ffb400;font-weight:700;margin-bottom:0.5rem;">⚠️ Important — Silver Purity Standard is Different from Gold</p>
+                        <p style="color:var(--text-secondary);font-size:0.92rem;">Silver uses <strong style="color:#fff;">99.99% as the base purity standard</strong> and is calculated on <strong style="color:#fff;">1 KG (1000 grams)</strong> MCX price — not 10 grams like gold.</p>
+                    </div>
+
+                    <div style="background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.2);border-radius:12px;padding:1.5rem;margin:1.5rem 0;">
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:1rem;">🔎 How Silver Purity Works in Our System</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;"><strong style="color:#fff;">99.99% is the base purity standard for silver.</strong></p>
+                        <div class="step"><div class="step-num" style="background:rgba(255,255,255,0.08);color:#fff;font-size:1rem;">＝</div><div class="step-text"><strong>Purity = 99.99%</strong> → Base rate used directly. No change in price.</div></div>
+                        <div class="step"><div class="step-num" style="background:rgba(255,80,80,0.15);color:#ff6b6b;font-size:1rem;">↓</div><div class="step-text"><strong>Purity below 99.99%</strong> (e.g. 99.90%) → Price reduces proportionally.</div></div>
+                    </div>
+
+                    <p style="margin-top:1.5rem;"><strong style="font-size:1rem;color:var(--primary-cyan);">📘 Example – Silver Coin (Purity 99.90%)</strong></p>
+                    <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:1.2rem 1.5rem;margin:1rem 0;">
+                        <p style="font-weight:600;margin-bottom:0.8rem;color:var(--text-primary);">Example Details:</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1.5rem;font-size:0.88rem;color:var(--text-secondary);">
+                            <span>📦 Coin Weight</span><span style="color:#fff;">100 grams</span>
+                            <span>✨ Purity</span><span style="color:#fff;">99.90%</span>
+                            <span>🔨 Making Charge</span><span style="color:#fff;">₹2,000</span>
+                            <span>📈 Premium</span><span style="color:#fff;">+₹1,000</span>
+                            <span>📊 Base MCX Price (1 KG)</span><span style="color:#fff;">₹2,60,000</span>
+                            <span>🧾 GST</span><span style="color:#fff;">3%</span>
+                        </div>
+                    </div>
+                    <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Add Premium:</strong> ₹2,60,000 + ₹1,000 = <strong>₹2,61,000</strong></div></div>
+                    <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Purity Adjustment (below 99.99%):</strong> Price = (99.90/100) × 2,61,000 = <strong>₹2,60,739</strong></div></div>
+                    <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Calculate for Weight</strong> (Silver base = 1 KG = 1000g): Per gram = 2,60,739 / 1000 = 260.739 → For 100g = 260.739 × 100 = <strong>₹26,074</strong></div></div>
+                    <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Add Making Charges:</strong> ₹26,074 + ₹2,000 = <strong>₹28,074</strong></div></div>
+                    <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Add GST (3%):</strong> ₹28,074 × 3% = ₹842 → Final = <strong>₹28,916</strong></div></div>
+                    <div style="background:rgba(118,255,3,0.07);border:1px solid rgba(118,255,3,0.3);border-radius:8px;padding:0.9rem 1.2rem;margin:0.8rem 0;">
+                        <p style="color:var(--primary-lime);font-weight:700;">✅ Final Silver Coin Price = ₹28,916</p>
+                    </div>
+
+                    <!-- GOLD VS SILVER COMPARISON -->
+                    <div style="background:rgba(255,180,0,0.05);border:1px solid rgba(255,180,0,0.2);border-radius:12px;padding:1.5rem;margin:1.8rem 0;">
+                        <p style="font-weight:700;color:#ffb400;margin-bottom:1rem;">⚖️ Key Differences: Gold vs Silver Calculation</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;font-size:0.88rem;">
+                            <div style="background:rgba(255,215,0,0.06);border-radius:8px;padding:0.8rem;border:1px solid rgba(255,215,0,0.15);">
+                                <p style="color:#ffd700;font-weight:700;margin-bottom:0.5rem;">🥇 Gold</p>
+                                <p style="color:var(--text-secondary);">Base Rate: <strong style="color:#fff;">10 grams</strong></p>
+                                <p style="color:var(--text-secondary);">Base Purity: <strong style="color:#fff;">99.5%</strong></p>
+                                <p style="color:var(--text-secondary);">Above 99.5 → Price ↑</p>
+                                <p style="color:var(--text-secondary);">Below 99.5 → Price ↓</p>
+                            </div>
+                            <div style="background:rgba(192,192,192,0.06);border-radius:8px;padding:0.8rem;border:1px solid rgba(192,192,192,0.15);">
+                                <p style="color:#c0c0c0;font-weight:700;margin-bottom:0.5rem;">🥈 Silver</p>
+                                <p style="color:var(--text-secondary);">Base Rate: <strong style="color:#fff;">1 KG (1000g)</strong></p>
+                                <p style="color:var(--text-secondary);">Base Purity: <strong style="color:#fff;">99.99%</strong></p>
+                                <p style="color:var(--text-secondary);">At 99.99 → No change</p>
+                                <p style="color:var(--text-secondary);">Below 99.99 → Price ↓</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="margin-top:1.8rem;font-size:1rem;"><strong>📝 Step-by-Step: How to Fill the Add Silver Coin Form</strong></p>
+                    <p style="margin-bottom:1.2rem;">The Silver Coin form works the same as Gold Coin — the key difference is you select <strong>Silver</strong> or <strong>Silver Next</strong> as the contract type.</p>
+
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/full_form_silver.png')" style="margin:1.2rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/full_form_silver.png" alt="Add Silver Coin Full Form" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    </div>
+
+                    <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Select Supplier</strong> — Choose the supplier (e.g. Kundan or MMTC).</div></div>
+                    <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Available / Not Available</strong> — Toggle availability. "Not Available" shows as Out of Stock on frontend.</div></div>
+                    <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Select Contract Type</strong> — Select <strong>Silver</strong> or <strong>Silver Next</strong>. The system uses whichever MCX silver contract you assigned to that slot.</div></div>
+                    <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Shape of Coin</strong> — E.g. Round, Tree Colour, Rectangle, etc.</div></div>
+                    <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Weight</strong> — Enter weight in grams (e.g. 100). Silver price is based on 1 KG rate — the system handles conversion automatically.</div></div>
+                    <div class="step"><div class="step-num">6</div><div class="step-text"><strong>Making Charges</strong> — Use <strong>+</strong> to add or <strong>−</strong> to subtract. Example: +2500.</div></div>
+                    <div class="step">
+                        <div class="step-num">7</div>
+                        <div class="step-text">
+                            <strong>Manual / Automatic Premium</strong><br><br>
+                            <strong>Manual:</strong> Enter premium/discount directly on the coin (e.g. +500 or -500).<br><br>
+                            <strong>Automatic:</strong> Link the coin to a bullion script. All linked coins update automatically when you change that script's premium.<br><br>
+                            <div style="background:rgba(0,212,255,0.06);border-left:3px solid var(--primary-cyan);border-radius:0 8px 8px 0;padding:0.8rem 1rem;margin-top:0.5rem;font-size:0.9rem;">
+                                💡 <strong style="color:var(--primary-cyan);">Recommended:</strong> Create one script per supplier (e.g. "Kundan Silver Coin" script) and link all their silver coins to it. Change premium once — all coins update instantly!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step"><div class="step-num">8</div><div class="step-text"><strong>Notes</strong> — E.g. "Silver Coin 100g with card packing."</div></div>
+                    <div class="step"><div class="step-num">9</div><div class="step-text"><strong>Purity</strong> — Select purity (e.g. 99.99%, 99.90%). Silver base purity is 99.99% — any purity below that reduces the price proportionally.</div></div>
+                    <div class="step"><div class="step-num">10</div><div class="step-text"><strong>GST</strong> — Select applicable GST (e.g. 3%). Applied on the final amount after all charges.</div></div>
+
+                    <div class="tip"><strong>💡 Tip:</strong> Silver uses a 1 KG base rate — enter weight in grams (e.g. 100 for a 100g coin). The system handles the conversion automatically.</div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 ADD NEW ARTICLES BELOW THIS LINE
+                 ============================================================ -->
+
+
+            <!-- Bottom navigation between articles -->
+            <div class="article-nav-bottom" id="articleNavBottom">
+                <!-- dynamically filled by JS -->
+            </div>
+
+            <!-- Need Help Banner -->
+            <div class="help-banner">
+                <div>
+                    <h3>Still need help? 🤝</h3>
+                    <p>Our support team is available Monday–Saturday, 9AM–6PM IST.</p>
+                </div>
+                <div class="help-banner-actions">
+                    <a href="mailto:info@innovativex.in" class="btn btn-primary">📧 Email Us</a>
+                    <a href="tel:+918196962922" class="btn btn-secondary">📱 Call Us</a>
+                </div>
+            </div>
+
+        </div><!-- end articles-area -->
+    </div><!-- end layout -->
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <img id="lightboxImg" src="" alt="Article Image">
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Innovative X. All rights reserved. | We Design • We Build • You Grow</p>
+    </footer>
+
+    <button class="scroll-top" id="scrollTop">↑</button>
+
+    <script>
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isOpen = navLinks.classList.toggle('active');
+            mobileMenuBtn.textContent = isOpen ? '✕' : '☰';
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+        navLinks.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+                document.body.style.overflow = '';
+            });
+        });
+        document.addEventListener('click', function(e) {
+            if (navLinks.classList.contains('active') &&
+                !navLinks.contains(e.target) && e.target !== mobileMenuBtn) {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Header scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Scroll top
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', function() {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+        });
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== ONE ARTICLE AT A TIME =====
+        const articles = Array.from(document.querySelectorAll('.article-card'));
+        let currentIndex = 0;
+
+        function showArticle(index) {
+            // hide all
+            articles.forEach(function(a) { a.style.display = 'none'; });
+            // show selected
+            articles[index].style.display = 'block';
+            currentIndex = index;
+
+            // scroll to top of articles area
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // update sidebar highlights
+            document.querySelectorAll('.article-nav a').forEach(function(link, i) {
+                link.classList.toggle('active', i === index);
+            });
+
+            // update prev/next buttons
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            const navBottom = document.getElementById('articleNavBottom');
+            navBottom.innerHTML = '';
+
+            // Prev button
+            if (currentIndex > 0) {
+                const prevTitle = articles[currentIndex - 1].querySelector('h2').textContent;
+                const prev = document.createElement('button');
+                prev.className = 'nav-btn';
+                prev.innerHTML = '← ' + prevTitle;
+                prev.onclick = function() { showArticle(currentIndex - 1); };
+                navBottom.appendChild(prev);
+            } else {
+                navBottom.appendChild(document.createElement('span'));
+            }
+
+            // Next button
+            if (currentIndex < articles.length - 1) {
+                const nextTitle = articles[currentIndex + 1].querySelector('h2').textContent;
+                const next = document.createElement('button');
+                next.className = 'nav-btn next';
+                next.innerHTML = nextTitle + ' →';
+                next.onclick = function() { showArticle(currentIndex + 1); };
+                navBottom.appendChild(next);
+            }
+        }
+
+        // Build sidebar
+        function buildSidebar() {
+            const nav = document.getElementById('articleNav');
+            nav.innerHTML = '';
+            document.getElementById('articleCount').textContent = articles.length;
+
+            articles.forEach(function(article, i) {
+                const title = article.querySelector('h2').textContent;
+                const li = document.createElement('li');
+                li.className = 'sidebar-nav-item';
+                li.setAttribute('data-title', title.toLowerCase());
+                li.innerHTML = '<a href="#"><span class="num">' + (i + 1) + '</span>' + title + '</a>';
+                li.querySelector('a').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showArticle(i);
+                });
+                nav.appendChild(li);
+            });
+        }
+
+        buildSidebar();
+        showArticle(0); // show first article on load
+
+        // Sidebar search — filters sidebar links only
+        document.getElementById('sidebarSearch').addEventListener('input', function() {
+            const q = this.value.toLowerCase();
+            document.querySelectorAll('.sidebar-nav-item').forEach(function(item) {
+                item.style.display = (q === '' || item.getAttribute('data-title').includes(q)) ? '' : 'none';
+            });
+        });
+
+        // Lightbox
+        function openLightbox(src) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>
