@@ -69,9 +69,12 @@
         .article-number { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary-cyan); margin-bottom: 0.8rem; }
         .article-number::before { content: ''; display: block; width: 20px; height: 2px; background: var(--gradient-primary); border-radius: 2px; }
         .article-card h2 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem; line-height: 1.4; }
-        .article-image-wrap { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,212,255,0.15); background: #111; cursor: zoom-in; }
+        .article-image-wrap { display:inline-block; width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,212,255,0.15); background: #111; cursor: zoom-in; }
         .article-image-wrap img { width: 100%; height: auto; display: block; transition: transform 0.4s ease; }
         .article-image-wrap:hover img { transform: scale(1.02); }
+        .img-natural { display:block; max-width:100%; text-align:center; }
+        .img-natural .article-image-wrap { display:inline-block; width:auto; max-width:100%; }
+        .img-narrow { display:block; max-width:320px; margin:0 auto; }
         .article-body { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.85; }
         .article-body p { margin-bottom: 1rem; }
         .article-body strong { color: var(--text-primary); font-weight: 600; }
@@ -226,15 +229,16 @@
                 <p>After logging in, go to the navigation panel and select <strong>Bullion With GST</strong>. You will see two options:</p>
                 <div class="step"><div class="step-num">📋</div><div class="step-text"><strong>Add Scripts</strong> — Create a new bullion script.</div></div>
                 <div class="step"><div class="step-num">👁️</div><div class="step-text"><strong>View Scripts</strong> — View, edit or delete existing scripts.</div></div>
-                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/bullionwithgst.png')" style="margin:1.2rem 0;">
-                    <img src="assets/helpdesk/live-bullion-web-app/bullionwithgst.png" alt="Bullion With GST Navigation" loading="lazy" onerror="this.parentElement.style.display='none'">
-                </div>
+                <div class="img-narrow" style="margin:1.2rem 0;">
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/bullionwithgst.png')">
+                    <img src="assets/helpdesk/live-bullion-web-app/bullionwithgst.png" alt="Bullion With GST Navigation" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+                </div></div>
 
                 <p style="margin-top:1.5rem;"><strong>Step 2: Add a New Script</strong></p>
                 <p style="margin-bottom:1.2rem;">Click on <strong>Add Scripts</strong> and fill in the following fields:</p>
-                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Select Contract Type</strong> — Choose the MCX contract: <strong>Gold</strong>, <strong>Gold Next</strong>, <strong>Silver</strong>, or <strong>Silver Next</strong>. This is the pricing basis for all coins linked to this script.</div></div>
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Select Contract Type</strong> — Choose the MCX contract: <strong>Gold</strong>, <strong>Gold Next</strong>, <strong>Silver</strong>, or <strong>Silver Next</strong>. Example: Gold April 2026 Future → choose <strong>Gold</strong>. Gold June 2026 Future → choose <strong>Gold Next</strong>.</div></div>
                 <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Description</strong> — Write a clear description. E.g. <em>"Gold Bullion – Delivery on 27th Feb"</em>.</div></div>
-                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Premium / Discount</strong> — Set the premium or discount (e.g. +500 or -500). All coins linked to this script will use this value automatically.</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Premium / Discount</strong> — Set the premium or discount (e.g. +500 or -500).</div></div>
                 <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Notes</strong> — Add payment terms or any instructions. E.g. "Payment within 24 hours."</div></div>
                 <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Purity</strong> — Select purity (e.g. 99.99%).</div></div>
                 <div class="step"><div class="step-num">6</div><div class="step-text"><strong>GST</strong> — Select applicable GST (e.g. 3%). Applied on the final amount.</div></div>
@@ -298,9 +302,10 @@
                 <p>After logging in, go to the navigation panel and select <strong>Bullion W/O GST</strong>. You will see two options:</p>
                 <div class="step"><div class="step-num">📋</div><div class="step-text"><strong>Add Scripts</strong> — Create a new script.</div></div>
                 <div class="step"><div class="step-num">👁️</div><div class="step-text"><strong>View Scripts</strong> — View, edit or delete existing scripts.</div></div>
-                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/bullionwithoutgst.png')" style="margin:1.2rem 0;">
-                    <img src="assets/helpdesk/live-bullion-web-app/bullionwithoutgst.png" alt="Bullion Without GST Navigation" loading="lazy" onerror="this.parentElement.style.display='none'">
-                </div>
+                <div class="img-narrow" style="margin:1.2rem 0;">
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/bullionwithoutgst.png')">
+                    <img src="assets/helpdesk/live-bullion-web-app/bullionwithoutgst.png" alt="Bullion Without GST Navigation" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+                </div></div>
 
                 <p style="margin-top:1.5rem;"><strong>Step 2: Add a New Script</strong></p>
                 <p style="margin-bottom:1.2rem;">Click on <strong>Add Scripts</strong> and fill in the following fields:</p>
@@ -319,7 +324,6 @@
                 </div>
                 <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Notes</strong> — Add payment instructions or relevant details.</div></div>
                 <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Purity</strong> — Select purity (e.g. 99.99%).</div></div>
-                <div class="step"><div class="step-num">6</div><div class="step-text"><strong>GST</strong> — Select GST (e.g. 3%). Used for calculation only — the price displayed on frontend will show the amount <em>excluding</em> GST, with a note "Applicable GST @ 3% extra" so customers know GST will be added on top.</div></div>
                 <div class="tip"><strong>💡 Tip:</strong> Think of Bullion With GST and Bullion Without GST as two views of the same price — one shows the final price (GST included), the other shows the base price (GST excluded) with a reminder that GST applies. Both are important for full customer transparency.</div>
 
                 <!-- FRONTEND PREVIEW -->
@@ -341,7 +345,7 @@
                         <div class="step"><div class="step-num">📋</div><div class="step-text"><strong>Description</strong> — Script description (e.g. "GOLD (500GMS) T+O").</div></div>
                         <div class="step"><div class="step-num">✨</div><div class="step-text"><strong>Purity</strong> — Purity of the bullion (e.g. 99.50%, 99.99%).</div></div>
                         <div class="step"><div class="step-num">💰</div><div class="step-text"><strong>Price (Excluding GST)</strong> — Live price before GST, shown in a red/green button with direction arrow.</div></div>
-                        <div class="step"><div class="step-num">📝</div><div class="step-text"><strong>"Applicable GST @ 3% extra"</strong> — Auto-shown below each entry to remind customers that 3% GST is mandatory and will be added on top of this price.</div></div>
+                        <div class="step"><div class="step-num">📝</div><div class="step-text"><strong>"Applicable GST @ 3% extra"</strong> — This is manually entered by you in the Notes field to inform customers that 3% GST will be added on top of this price.</div></div>
                     </div>
                 </div>
             </div>
@@ -358,9 +362,10 @@
                 <p>Click on <strong>Gold Coin</strong> in the Navigation Panel. You will see two options:</p>
                 <div class="step"><div class="step-num">📋</div><div class="step-text"><strong>Add Gold Coin</strong> — Create a new coin entry.</div></div>
                 <div class="step"><div class="step-num">👁️</div><div class="step-text"><strong>View Gold Coin</strong> — Edit or delete existing coins.</div></div>
-                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/goldcoin.png')" style="margin:1.2rem 0;">
-                    <img src="assets/helpdesk/live-bullion-web-app/goldcoin.png" alt="Gold Coin Navigation" loading="lazy" onerror="this.parentElement.style.display='none'">
-                </div>
+                <div class="img-narrow" style="margin:1.2rem 0;">
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/goldcoin.png')">
+                    <img src="assets/helpdesk/live-bullion-web-app/goldcoin.png" alt="Gold Coin Navigation" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+                </div></div>
 
                 <div style="background:rgba(255,180,0,0.07);border:1px solid rgba(255,180,0,0.35);border-left:4px solid #ffb400;border-radius:10px;padding:1.2rem 1.5rem;margin:1.5rem 0;">
                     <p style="color:#ffb400;font-weight:700;margin-bottom:0.5rem;">⚠️ Important — Understand How Calculation Works First</p>
@@ -423,9 +428,10 @@
                     <img src="assets/helpdesk/live-bullion-web-app/full_form.png" alt="Add Gold Coin Full Form" loading="lazy" onerror="this.parentElement.style.display='none'">
                 </div>
                 <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Select Supplier</strong> — Choose the supplier (e.g. Kundan or MMTC). Determines which tab the coin appears under. Kundan → Kundan tab, MMTC → MMTC tab.</div></div>
-                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/supplier.png')" style="margin:1rem 0 1.2rem 0;">
-                    <img src="assets/helpdesk/live-bullion-web-app/supplier.png" alt="Select Supplier" loading="lazy" onerror="this.parentElement.style.display='none'">
-                </div>
+                <div class="img-narrow" style="margin:1rem 0 1.2rem 0;">
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/supplier.png')">
+                    <img src="assets/helpdesk/live-bullion-web-app/supplier.png" alt="Select Supplier" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+                </div></div>
                 <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Available / Not Available</strong> — Toggle to set coin availability. "Not Available" shows as <strong>Out of Stock</strong> on frontend.</div></div>
                 <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Select Contract Type</strong> — Select <strong>Gold</strong> or <strong>Gold Next</strong>. The system links this coin to whichever MCX contract you assigned to that slot.<br><br>Example: Gold April 2026 Future → choose <strong>Gold</strong>. Gold June 2026 Future → choose <strong>Gold Next</strong>.</div></div>
                 <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Shape of Coin</strong> — E.g. Round, Rectangular, Rectangle Tree, Color Coin, etc.</div></div>
@@ -452,9 +458,10 @@
                     <p style="font-size:1rem;margin-bottom:0.5rem;"><strong>👁️ How It Looks on the Frontend (Client Portal)</strong></p>
                     <p style="color:var(--text-secondary);font-size:0.92rem;margin-bottom:1.5rem;">Below is an example from a live client portal showing how coins appear to your customers.</p>
                     <p style="font-weight:600;color:var(--text-primary);margin-bottom:0.6rem;">1. Coin Rates Navigation Menu</p>
-                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/coinfront.png')" style="margin:0 0 1rem 0;">
-                        <img src="assets/helpdesk/live-bullion-web-app/coinfront.png" alt="Coin Rates Navigation" loading="lazy" onerror="this.parentElement.style.display='none'">
-                    </div>
+                    <div class="img-narrow" style="margin:0 0 1rem 0;">
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/coinfront.png')">
+                        <img src="assets/helpdesk/live-bullion-web-app/coinfront.png" alt="Coin Rates Navigation" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+                    </div></div>
                     <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:1.8rem;">
                         <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">Customers see a <strong style="color:#fff;">Coin Rates</strong> menu in the navigation bar. Clicking it shows a dropdown with all your suppliers — e.g. <strong style="color:#fff;">KUNDAN</strong> and <strong style="color:#fff;">MMTC PAMP</strong>. Each supplier tab is created automatically based on the supplier you selected when adding the coin.</p>
                     </div>
@@ -486,9 +493,10 @@
                 <p>Click on <strong>Silver Coin</strong> in the Navigation Panel. You will see two options:</p>
                 <div class="step"><div class="step-num">📋</div><div class="step-text"><strong>Add Silver Coin</strong> — Create a new silver coin entry.</div></div>
                 <div class="step"><div class="step-num">👁️</div><div class="step-text"><strong>View Silver Coins</strong> — Edit or delete existing silver coins.</div></div>
-                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/silvercoin.png')" style="margin:1.2rem 0;">
-                    <img src="assets/helpdesk/live-bullion-web-app/silvercoin.png" alt="Silver Coin Navigation" loading="lazy" onerror="this.parentElement.style.display='none'">
-                </div>
+                <div class="img-narrow" style="margin:1.2rem 0;">
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/silvercoin.png')">
+                    <img src="assets/helpdesk/live-bullion-web-app/silvercoin.png" alt="Silver Coin Navigation" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+                </div></div>
 
                 <div style="background:rgba(255,180,0,0.07);border:1px solid rgba(255,180,0,0.35);border-left:4px solid #ffb400;border-radius:10px;padding:1.2rem 1.5rem;margin:1.5rem 0;">
                     <p style="color:#ffb400;font-weight:700;margin-bottom:0.5rem;">⚠️ Important — Silver Purity Standard is Different from Gold</p>
@@ -549,9 +557,10 @@
                     <img src="assets/helpdesk/live-bullion-web-app/full_form_silver.png" alt="Add Silver Coin Full Form" loading="lazy" onerror="this.parentElement.style.display='none'">
                 </div>
                 <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Select Supplier</strong> — Choose the supplier (e.g. Kundan or MMTC).</div></div>
-                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/supplier.png')" style="margin:1rem 0 1.2rem 0;">
-                    <img src="assets/helpdesk/live-bullion-web-app/supplier.png" alt="Select Supplier" loading="lazy" onerror="this.parentElement.style.display='none'">
-                </div>
+                <div class="img-narrow" style="margin:1rem 0 1.2rem 0;">
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/supplier.png')">
+                    <img src="assets/helpdesk/live-bullion-web-app/supplier.png" alt="Select Supplier" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+                </div></div>
                 <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Available / Not Available</strong> — Toggle availability. "Not Available" shows as Out of Stock on frontend.</div></div>
                 <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Select Contract Type</strong> — Select <strong>Silver</strong> or <strong>Silver Next</strong>. The system uses whichever MCX silver contract you assigned to that slot.</div></div>
                 <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Shape of Coin</strong> — E.g. Round, Tree Colour, Rectangle, etc.</div></div>
@@ -578,9 +587,10 @@
                     <p style="font-size:1rem;margin-bottom:0.5rem;"><strong>👁️ How It Looks on the Frontend (Client Portal)</strong></p>
                     <p style="color:var(--text-secondary);font-size:0.92rem;margin-bottom:1.5rem;">Silver coins appear in the same frontend display as Gold coins — under the same supplier tab in the Silver Coin Prices section.</p>
                     <p style="font-weight:600;color:var(--text-primary);margin-bottom:0.6rem;">1. Coin Rates Navigation Menu</p>
-                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/coinfront.png')" style="margin:0 0 1rem 0;">
-                        <img src="assets/helpdesk/live-bullion-web-app/coinfront.png" alt="Coin Rates Navigation" loading="lazy" onerror="this.parentElement.style.display='none'">
-                    </div>
+                    <div class="img-narrow" style="margin:0 0 1rem 0;">
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/coinfront.png')">
+                        <img src="assets/helpdesk/live-bullion-web-app/coinfront.png" alt="Coin Rates Navigation" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+                    </div></div>
                     <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:1.8rem;">
                         <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">Customers see the <strong style="color:#fff;">Coin Rates</strong> dropdown in the navigation showing all supplier tabs. Silver coins appear under the same supplier tab as Gold coins.</p>
                     </div>
@@ -596,6 +606,193 @@
                         <div class="step"><div class="step-num">🔍</div><div class="step-text"><strong>Search Bar</strong> — Customers can search for any coin by name across both gold and silver sections.</div></div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             ARTICLE 7 — Bulk Edit Guide
+        ================================================================ -->
+        <div class="article-card" id="article-7" data-title="bulk edit discount premium guide">
+            <div class="article-number">Article 07</div>
+            <h2>Bulk Edit Guide – Discount / Premium</h2>
+            <div class="article-body">
+                <p>The <strong>Bulk Edit Discount/Premium</strong> feature is available in every View section — View Gold Coins, View Silver Coins, View Bullion With GST, and View Bullion Without GST. It allows you to update the premium or discount for multiple entries at once with a single click — without editing each one individually.</p>
+                <div style="background:rgba(118,255,3,0.05);border:1px solid rgba(118,255,3,0.2);border-left:4px solid var(--primary-lime);border-radius:0 10px 10px 0;padding:1.2rem 1.5rem;margin:1.5rem 0;">
+                    <p style="color:var(--primary-lime);font-weight:700;margin-bottom:0.5rem;">⚡ Why Use Bulk Edit?</p>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">Instead of opening and editing each coin one by one, Bulk Edit lets you select a supplier or contract type and apply a new premium/discount to all matching entries in seconds.</p>
+                </div>
+
+                <p style="margin-top:1.5rem;"><strong>Step 1: Open Any View Section</strong></p>
+                <p style="margin-bottom:1.2rem;">Navigate to any of the following sections and click the <strong>BULK EDIT DISCOUNT/PREMIUM</strong> button in the top right corner:</p>
+                <div class="step"><div class="step-num">🪙</div><div class="step-text"><strong>View Gold Coins</strong> — Bulk edit premium/discount for gold coins by supplier.</div></div>
+                <div class="step"><div class="step-num">🥈</div><div class="step-text"><strong>View Silver Coins</strong> — Bulk edit premium/discount for silver coins by supplier.</div></div>
+                <div class="step"><div class="step-num">📊</div><div class="step-text"><strong>View Bullion With GST Scripts</strong> — Bulk edit premium/discount by contract type.</div></div>
+                <div class="step"><div class="step-num">📋</div><div class="step-text"><strong>View Bullion Without GST Scripts</strong> — Bulk edit premium/discount by contract type.</div></div>
+
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/bulk2.png')" style="margin:1.2rem 0;">
+                    <img src="assets/helpdesk/live-bullion-web-app/bulk2.png" alt="View Gold Coins - Bulk Edit Button" loading="lazy" onerror="this.parentElement.style.display='none'">
+                </div>
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/bulk1.png')" style="margin:1.2rem 0;">
+                    <img src="assets/helpdesk/live-bullion-web-app/bulk1.png" alt="View Bullion Prices - Bulk Edit Button" loading="lazy" onerror="this.parentElement.style.display='none'">
+                </div>
+
+                <p style="margin-top:1.8rem;"><strong style="font-size:1rem;color:var(--primary-cyan);">🪙 Bulk Edit for Gold Coins / Silver Coins</strong></p>
+                <p style="margin-bottom:1.2rem;">When you click Bulk Edit in the Gold Coins or Silver Coins section, a popup appears with the following fields:</p>
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/bulk3.png')" style="margin:1.2rem 0;">
+                    <img src="assets/helpdesk/live-bullion-web-app/bulk3.png" alt="Bulk Edit Popup - Coins" loading="lazy" onerror="this.parentElement.style.display='none'">
+                </div>
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Select Supplier</strong> — Choose which supplier's coins you want to update. E.g. selecting <strong>KUNDAN</strong> will apply the new premium/discount to all Kundan coins only. MMTC coins remain unchanged.</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Discount / Premium</strong> — Enter the new value. E.g. +500 to add a ₹500 premium or -500 to apply a ₹500 discount.</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text">Click <strong>Save Changes</strong> to apply. All coins under the selected supplier will be updated instantly. Click <strong>Close</strong> to cancel.</div></div>
+                <div style="background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:1.2rem 1.5rem;margin:1.2rem 0;">
+                    <p style="color:var(--primary-cyan);font-weight:700;margin-bottom:0.4rem;">ℹ️ Gold and Silver are Independent</p>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;">Gold Coins have their own Bulk Edit and Silver Coins have their own Bulk Edit. Changing premium in Gold Coins section does not affect Silver Coins and vice versa.</p>
+                </div>
+
+                <p style="margin-top:1.8rem;"><strong style="font-size:1rem;color:var(--primary-cyan);">📊 Bulk Edit for Bullion With GST / Without GST</strong></p>
+                <p style="margin-bottom:1.2rem;">When you click Bulk Edit in the Bullion sections, the popup shows a <strong>Select Contract Type</strong> instead of supplier — because bullion scripts are organized by contract, not supplier:</p>
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/bulk4.png')" style="margin:1.2rem 0;">
+                    <img src="assets/helpdesk/live-bullion-web-app/bulk4.png" alt="Bulk Edit Popup - Bullion" loading="lazy" onerror="this.parentElement.style.display='none'">
+                </div>
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Select Contract Type</strong> — Choose <strong>Gold</strong>, <strong>Gold Next</strong>, <strong>Silver</strong>, or <strong>Silver Next</strong>. All bullion scripts under that contract type will be updated.</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Discount / Premium</strong> — Enter the new value (e.g. +500 or -500).</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text">Click <strong>Save Changes</strong> to apply instantly to all matching scripts.</div></div>
+
+                <div style="background:rgba(255,180,0,0.07);border:1px solid rgba(255,180,0,0.35);border-left:4px solid #ffb400;border-radius:10px;padding:1.2rem 1.5rem;margin:1.8rem 0;">
+                    <p style="color:#ffb400;font-weight:700;margin-bottom:0.8rem;">⚠️ Important — Bulk Edit Skips Automatic Mode Coins</p>
+                    <p style="color:var(--text-secondary);font-size:0.92rem;line-height:1.8;">If a coin is set to <strong style="color:#fff;">Automatic mode</strong> and linked to a bullion script, <strong style="color:#fff;">Bulk Edit will skip that coin entirely.</strong><br><br>
+                    This is by design. Automatic mode coins get their premium directly from their linked bullion script — they are not meant to be edited individually or in bulk.<br><br>
+                    <strong style="color:#fff;">To update Automatic mode coins:</strong> Go to the bullion script they are linked to and update the premium there. All coins linked to that script will update automatically and instantly.</p>
+                </div>
+
+                <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:1.2rem 1.5rem;margin-top:1rem;">
+                    <p style="font-weight:700;color:var(--text-primary);margin-bottom:0.8rem;">📌 Quick Summary</p>
+                    <div class="step"><div class="step-num">🪙</div><div class="step-text"><strong>Coins (Manual mode)</strong> — Use Bulk Edit → Select Supplier → Enter premium → Save. All manual coins of that supplier update.</div></div>
+                    <div class="step"><div class="step-num">🤖</div><div class="step-text"><strong>Coins (Automatic mode)</strong> — Do NOT use Bulk Edit. Update the linked bullion script instead — all linked coins update automatically.</div></div>
+                    <div class="step"><div class="step-num">📊</div><div class="step-text"><strong>Bullion Scripts</strong> — Use Bulk Edit → Select Contract Type → Enter premium → Save. All scripts of that contract type update.</div></div>
+                </div>
+                <div class="tip"><strong>💡 Tip:</strong> Bulk Edit is the fastest way to update prices before market open. For Automatic mode coins, just update the linked script — all coins follow instantly without any additional steps.</div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             ARTICLE 8 — Spacestation Setting
+        ================================================================ -->
+        <div class="article-card" id="article-8" data-title="spacestation setting system configuration guide">
+            <div class="article-number">Article 08</div>
+            <h2>Spacestation Setting – System Configuration Guide</h2>
+            <div class="article-body">
+                <p>The <strong>Spacestation Setting → Configuration</strong> section allows you to manage and customize what appears on the <strong>home screen</strong> of your client portal. From operation timings to notices, market status, and booking — everything your customers see on the homepage is controlled from here.</p>
+                <p style="margin-top:1rem;"><strong>How to Access:</strong> Go to <strong>Spacestation Setting</strong> in the navigation panel → click <strong>Configuration</strong>. You will see a <strong>Manage Home Sections</strong> page with a <strong>Select Section</strong> dropdown.</p>
+
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/spacestation-config.png')" style="margin:1.2rem 0;">
+                    <img src="assets/helpdesk/live-bullion-web-app/spacestation-config.png" alt="Spacestation Configuration" loading="lazy" onerror="this.parentElement.style.display='none'">
+                </div>
+
+                <p style="margin-bottom:1rem;">The dropdown contains the following sections. Select any one to edit its content:</p>
+
+                <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:12px;padding:1.3rem 1.5rem;margin-bottom:1rem;">
+                    <p style="font-weight:700;color:var(--text-primary);margin-bottom:0.5rem;">🕐 1. Operation Timing</p>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">Set your business operation hours displayed to customers on the home screen. For example: <em>"Mon–Sat: 10:00 AM – 7:00 PM"</em>. This helps customers know when to contact you for bookings or enquiries.</p>
+                </div>
+
+                <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:12px;padding:1.3rem 1.5rem;margin-bottom:1rem;">
+                    <p style="font-weight:700;color:var(--text-primary);margin-bottom:0.5rem;">📢 2. Notice</p>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;margin-bottom:0.8rem;">Write an important notice shown on the home screen for all customers. For example, a disclaimer about MCX prices being for reference only, or booking instructions.</p>
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/dynamicsetting.png')" style="margin:0.8rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/dynamicsetting.png" alt="Notice Setting" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div style="background:rgba(0,212,255,0.06);border-left:3px solid var(--primary-cyan);border-radius:0 8px 8px 0;padding:0.8rem 1rem;margin-top:0.8rem;font-size:0.9rem;">
+                        🔗 <strong style="color:var(--primary-cyan);">Adding a Link in Notice:</strong><br>
+                        <span style="color:var(--text-secondary);">To insert a clickable link inside the notice, wrap the URL between <strong style="color:#fff;">%%</strong> symbols.<br>
+                        Example: <strong style="color:#fff;">%%https://example.com%%</strong><br>
+                        The system will automatically convert it into a clickable link for customers.</span>
+                    </div>
+                </div>
+
+                <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:12px;padding:1.3rem 1.5rem;margin-bottom:1rem;">
+                    <p style="font-weight:700;color:var(--text-primary);margin-bottom:0.5rem;">📰 3. News & Events</p>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">Post news updates or upcoming events relevant to your business. Shown as a news/events section on the customer-facing home screen. You can use the same <strong style="color:#fff;">%%link%%</strong> format to add clickable links here as well.</p>
+                </div>
+
+                <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:12px;padding:1.3rem 1.5rem;margin-bottom:1rem;">
+                    <p style="font-weight:700;color:var(--text-primary);margin-bottom:0.5rem;">💬 4. Top Message</p>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">Set a short message that appears at the very top of your client portal — like a banner or marquee. Use this for urgent announcements, festive greetings, or any time-sensitive message you want all visitors to see immediately.</p>
+                </div>
+
+                <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:12px;padding:1.3rem 1.5rem;margin-bottom:1rem;">
+                    <p style="font-weight:700;color:var(--text-primary);margin-bottom:0.5rem;">🔴🟢 5. Market On / Off</p>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;margin-bottom:0.8rem;">This is a critical setting that controls whether live prices are visible on your client portal.</p>
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/market-onoff.png')" style="margin:0.8rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/market-onoff.png" alt="Market On Off Setting" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div class="step"><div class="step-num" style="background:rgba(118,255,3,0.2);color:var(--primary-lime);">✓</div><div class="step-text"><strong>Enabled (Checked)</strong> — Live bullion and coin prices are visible to customers. Market is open.</div></div>
+                    <div class="step"><div class="step-num" style="background:rgba(255,80,80,0.2);color:#ff6b6b;">✕</div><div class="step-text"><strong>Disabled (Unchecked)</strong> — All prices are hidden from the frontend. Customers will see a <strong>Market Closed</strong> message instead of live prices.</div></div>
+                    <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/market-closed.png')" style="margin:1rem 0;">
+                        <img src="assets/helpdesk/live-bullion-web-app/market-closed.png" alt="Market Closed Frontend" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div style="background:rgba(255,180,0,0.07);border:1px solid rgba(255,180,0,0.35);border-left:4px solid #ffb400;border-radius:0 8px 8px 0;padding:0.8rem 1rem;margin-top:0.5rem;font-size:0.9rem;">
+                        ⚠️ <strong style="color:#ffb400;">Important:</strong> <span style="color:var(--text-secondary);">If the market is off, customers will not see any prices regardless of what is configured in coins or scripts. Always turn the market back on after holidays or maintenance.</span>
+                    </div>
+                </div>
+
+                <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:12px;padding:1.3rem 1.5rem;margin-bottom:1rem;">
+                    <p style="font-weight:700;color:var(--text-primary);margin-bottom:0.5rem;">📞 6. Booking Desk</p>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">Configure the booking desk information shown to customers — such as phone numbers, WhatsApp contact, or booking instructions. This helps customers know how to place orders or get in touch directly for purchases.</p>
+                </div>
+
+                <div class="tip"><strong>💡 Tip:</strong> All changes made in Configuration are reflected on the customer-facing portal immediately after saving. Always double-check your content before saving — especially the <strong>Market On/Off</strong> toggle, as turning it off hides all live prices from customers instantly.</div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             ARTICLE 9 — User Management
+        ================================================================ -->
+        <div class="article-card" id="article-9" data-title="user management create view user guide">
+            <div class="article-number">Article 09</div>
+            <h2>User Management – Create & View User Guide</h2>
+            <div class="article-body">
+                <p>The <strong>User Management</strong> section allows you to create sub-admin accounts for your team members and control exactly what each person can access and do in the dashboard. This is useful when you have staff who manage prices, scripts, or settings on your behalf.</p>
+                <p style="margin-top:1rem;"><strong>How to Access:</strong> Go to <strong>User Management</strong> in the navigation panel. You will see two options:</p>
+                <div class="step"><div class="step-num">👤</div><div class="step-text"><strong>Create User</strong> — Add a new sub-admin account.</div></div>
+                <div class="step"><div class="step-num">👁️</div><div class="step-text"><strong>View User</strong> — See and manage all existing sub-admin accounts.</div></div>
+
+                <p style="margin-top:1.8rem;font-size:1rem;"><strong>📝 Create User — Form Guide</strong></p>
+                <p style="margin-bottom:1.2rem;">Click on <strong>Create User</strong> and fill in the following fields:</p>
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/createuser.png')" style="margin:1.2rem 0;">
+                    <img src="assets/helpdesk/live-bullion-web-app/createuser.png" alt="Create User Form" loading="lazy" onerror="this.parentElement.style.display='none'">
+                </div>
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Username</strong> — The login name for this user. E.g. "manager1".</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Email</strong> — The user's email address.</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Password</strong> — Set a secure login password for this user.</div></div>
+                <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Role</strong> — Define their role title. E.g. "Manager", "Staff", "user".</div></div>
+                <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Permissions</strong> — Tick the permissions this user should have. See below for what each permission allows.</div></div>
+
+                <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:12px;padding:1.3rem 1.5rem;margin:1.2rem 0;">
+                    <p style="font-weight:700;color:var(--text-primary);margin-bottom:1rem;">🔐 Permissions Explained</p>
+                    <div class="step"><div class="step-num">👁️</div><div class="step-text"><strong>View / Bulk Update Permissions</strong> — User can view all data and use the Bulk Edit feature to update premiums/discounts.</div></div>
+                    <div class="step"><div class="step-num">✏️</div><div class="step-text"><strong>Add / Edit Permissions</strong> — User can add new coins and scripts and edit existing ones.</div></div>
+                    <div class="step"><div class="step-num">📋</div><div class="step-text"><strong>Contracts / Scripts Permissions</strong> — User can manage MCX contract selection and bullion scripts.</div></div>
+                    <div class="step"><div class="step-num">↕️</div><div class="step-text"><strong>Sorting Permissions</strong> — User can reorder how coins and scripts appear on the frontend.</div></div>
+                    <div class="step"><div class="step-num">⚙️</div><div class="step-text"><strong>Spacestation Setting</strong> — User can access the Configuration section to manage home screen content.</div></div>
+                    <div class="step"><div class="step-num">🗑️</div><div class="step-text"><strong>Delete Permissions</strong> — User can delete coins, scripts, and other entries.</div></div>
+                </div>
+
+                <div style="background:rgba(255,180,0,0.07);border:1px solid rgba(255,180,0,0.35);border-left:4px solid #ffb400;border-radius:10px;padding:1.2rem 1.5rem;margin:1rem 0;">
+                    <p style="color:#ffb400;font-weight:700;margin-bottom:0.5rem;">⚠️ Assign Permissions Carefully</p>
+                    <p style="color:var(--text-secondary);font-size:0.92rem;">Only give <strong style="color:#fff;">Delete</strong> and <strong style="color:#fff;">Spacestation Setting</strong> permissions to trusted senior staff. These permissions allow making changes that directly affect what customers see on your portal.</p>
+                </div>
+
+                <p style="margin-top:1.8rem;font-size:1rem;"><strong>👁️ View User — Manage Existing Users</strong></p>
+                <p style="margin-bottom:1.2rem;">Click on <strong>View User</strong> to see all created sub-admin accounts in a table showing their <strong>Username</strong>, <strong>Email</strong>, <strong>Role</strong>, <strong>Permissions</strong>, and <strong>Status</strong> (Active/Inactive).</p>
+                <div class="article-image-wrap" onclick="openLightbox('assets/helpdesk/live-bullion-web-app/viewuser.png')" style="margin:1.2rem 0;">
+                    <img src="assets/helpdesk/live-bullion-web-app/viewuser.png" alt="View Users Table" loading="lazy" onerror="this.parentElement.style.display='none'">
+                </div>
+                <p style="margin-bottom:1.2rem;">In the <strong>Actions</strong> column you can:</p>
+                <div class="step"><div class="step-num" style="background:rgba(118,255,3,0.2);color:var(--primary-lime);">✏️</div><div class="step-text"><strong>Edit (Green Pen)</strong> — Change the user's password.</div></div>
+                <div class="step"><div class="step-num" style="background:rgba(255,80,80,0.2);color:#ff6b6b;">🗑️</div><div class="step-text"><strong>Delete (Red Bin)</strong> — Permanently remove the sub-admin user from the system.</div></div>
+
+                <div class="tip"><strong>💡 Tip:</strong> Use the <strong>Permissions</strong> column in View User to quickly check what access each team member has. If a user's role changes, delete their account and create a new one with updated permissions.</div>
             </div>
         </div>
 
@@ -656,7 +853,8 @@
         articles.forEach(function(a) { a.style.display = 'none'; });
         articles[index].style.display = 'block';
         currentIndex = index;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        var headerHeight = document.getElementById('header').offsetHeight;
+        window.scrollTo({ top: headerHeight + 10, behavior: 'smooth' });
         document.querySelectorAll('.article-nav a').forEach(function(link, i) { link.classList.toggle('active', i === index); });
         updateNavButtons();
     }
