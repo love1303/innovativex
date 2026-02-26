@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk | Innovative X</title>
+    <link rel="icon" type="image/png" href="assets/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <link rel="shortcut icon" href="assets/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+    <link rel="manifest" href="assets/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-blue: #00d4ff;
+            --primary-cyan: #00b8d4;
+            --primary-green: #c8ff00;
+            --primary-lime: #76ff03;
+            --dark-bg: #0a0a0a;
+            --dark-card: #1a1a1a;
+            --dark-elevated: #222;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --gradient-primary: linear-gradient(135deg, var(--primary-blue), var(--primary-cyan), var(--primary-lime), var(--primary-green));
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-bg); color: var(--text-primary);
+            overflow-x: hidden; line-height: 1.6;
+        }
+        .bg-animation {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.03;
+            background: radial-gradient(circle at 20% 50%, var(--primary-blue) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, var(--primary-green) 0%, transparent 50%);
+            animation: bgPulse 15s ease-in-out infinite;
+        }
+        @keyframes bgPulse { 0%,100%{opacity:0.03}50%{opacity:0.06} }
+
+        /* HEADER */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            z-index: 1000; background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,212,255,0.1);
+            transition: all 0.3s ease;
+        }
+        header.scrolled { background: rgba(10,10,10,0.98); box-shadow: 0 10px 30px rgba(0,212,255,0.1); }
+        nav {
+            max-width: 1400px; margin: 0 auto; padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo-text {
+            font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700;
+            background: var(--gradient-primary); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; background-clip: text;
+            letter-spacing: 1px; cursor: pointer; text-decoration: none; transition: all 0.3s ease;
+        }
+        .logo-text:hover { filter: drop-shadow(0 0 10px rgba(0,212,255,0.5)); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none;
+            font-weight: 500; font-size: 0.95rem; transition: all 0.3s ease; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0; height: 2px; background: var(--gradient-primary); transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--text-primary); }
+        .nav-links a.active::after { width: 100%; }
+        .mobile-menu-btn {
+            display: none; background: none;
+            border: 2px solid rgba(0,212,255,0.4); border-radius: 8px;
+            color: var(--text-primary); font-size: 1.4rem;
+            cursor: pointer; padding: 0.35rem 0.7rem; line-height: 1;
+            z-index: 1100; transition: all 0.3s ease;
+        }
+        .mobile-menu-btn:hover { border-color: var(--primary-cyan); background: rgba(0,212,255,0.1); }
+
+        /* PAGE HERO */
+        .page-hero {
+            position: relative; z-index: 10;
+            padding: 10rem 2rem 5rem;
+            text-align: center;
+            max-width: 900px; margin: 0 auto;
+        }
+        .hero-tag {
+            display: inline-block;
+            background: rgba(0,212,255,0.08);
+            border: 1px solid rgba(0,212,255,0.25);
+            color: var(--primary-cyan);
+            padding: 0.4rem 1.2rem; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem;
+        }
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900;
+            margin-bottom: 1.2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .page-subtitle {
+            color: var(--text-secondary); font-size: 1.1rem;
+            max-width: 600px; margin: 0 auto 3rem; line-height: 1.8;
+        }
+
+        /* SEARCH BAR */
+        .search-wrapper {
+            position: relative; max-width: 560px; margin: 0 auto;
+        }
+        .search-icon {
+            position: absolute; left: 1.2rem; top: 50%; transform: translateY(-50%);
+            font-size: 1.2rem; pointer-events: none;
+        }
+        .search-bar {
+            width: 100%; padding: 1rem 1.5rem 1rem 3.2rem;
+            background: var(--dark-card); border: 1px solid rgba(0,212,255,0.2);
+            border-radius: 50px; color: var(--text-primary);
+            font-family: 'Poppins', sans-serif; font-size: 1rem;
+            outline: none; transition: all 0.3s ease;
+        }
+        .search-bar::placeholder { color: var(--text-secondary); }
+        .search-bar:focus { border-color: var(--primary-cyan); box-shadow: 0 0 20px rgba(0,212,255,0.15); }
+
+        /* MAIN CONTENT */
+        .main-content {
+            position: relative; z-index: 10;
+            max-width: 1400px; margin: 0 auto;
+            padding: 2rem 2rem 6rem;
+        }
+
+        /* SECTION LABEL */
+        .section-label {
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 2px; color: var(--text-secondary);
+            margin-bottom: 1.5rem; padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* PRODUCTS GRID */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .product-card {
+            background: var(--dark-card);
+            border-radius: 16px;
+            border: 1px solid rgba(0,212,255,0.1);
+            padding: 2rem;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--gradient-primary); transform: scaleX(0); transition: transform 0.35s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary-cyan);
+            box-shadow: 0 16px 40px rgba(0,212,255,0.18);
+        }
+        .product-card:hover::before { transform: scaleX(1); }
+
+        .product-icon-wrap {
+            width: 56px; height: 56px; border-radius: 14px;
+            background: rgba(0,212,255,0.08);
+            border: 1px solid rgba(0,212,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; flex-shrink: 0;
+        }
+        .product-info { flex: 1; }
+        .product-info h3 {
+            font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 700;
+            color: var(--text-primary); margin-bottom: 0.4rem;
+        }
+        .product-info p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; }
+        .product-meta {
+            display: flex; align-items: center; gap: 0.8rem; margin-top: 0.8rem; flex-wrap: wrap;
+        }
+        .product-badge {
+            font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.7rem;
+            border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .badge-new { background: rgba(0,212,255,0.12); color: var(--primary-cyan); border: 1px solid rgba(0,212,255,0.3); }
+        .badge-articles {
+            font-size: 0.78rem; color: var(--text-secondary);
+        }
+        .arrow-icon {
+            font-size: 1.1rem; color: var(--text-secondary);
+            transition: all 0.3s ease; align-self: center; flex-shrink: 0;
+        }
+        .product-card:hover .arrow-icon { color: var(--primary-cyan); transform: translateX(4px); }
+
+        /* NEED MORE HELP */
+        .help-banner {
+            background: var(--dark-card);
+            border: 1px solid rgba(0,212,255,0.15);
+            border-radius: 20px;
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+            position: relative;
+            overflow: hidden;
+        }
+        .help-banner::before {
+            content: '';
+            position: absolute; top: -50%; right: -20%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+        }
+        .help-banner-text { position: relative; }
+        .help-banner-text h3 {
+            font-family: 'Orbitron', sans-serif; font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        .help-banner-text p { color: var(--text-secondary); font-size: 0.95rem; }
+        .help-banner-actions { display: flex; gap: 1rem; flex-wrap: wrap; position: relative; }
+        .btn {
+            padding: 0.8rem 1.8rem; font-size: 0.9rem; font-weight: 600;
+            text-decoration: none; border-radius: 50px; transition: all 0.3s ease;
+            cursor: pointer; border: none; font-family: 'Poppins', sans-serif; display: inline-block;
+        }
+        .btn-primary { background: var(--gradient-primary); color: var(--dark-bg); box-shadow: 0 8px 25px rgba(0,212,255,0.25); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(0,212,255,0.4); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 2px solid var(--primary-cyan); }
+        .btn-secondary:hover { background: rgba(0,212,255,0.1); transform: translateY(-2px); }
+
+        /* FOOTER */
+        footer {
+            position: relative; z-index: 10; background: var(--dark-card);
+            padding: 1.2rem; text-align: center; border-top: 1px solid rgba(0,212,255,0.1);
+        }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* SCROLL TOP */
+        .scroll-top {
+            position: fixed; bottom: 2rem; right: 2rem; width: 46px; height: 46px;
+            background: var(--gradient-primary); border: none; border-radius: 50%;
+            color: var(--dark-bg); font-size: 1.3rem; cursor: pointer;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .scroll-top.visible { opacity: 1; visibility: visible; }
+        .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,212,255,0.5); }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+                flex-direction: column; justify-content: center; align-items: center;
+                background: rgba(10,10,10,0.97); gap: 2.5rem; list-style: none;
+                transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); z-index: 999;
+            }
+            .nav-links.active { transform: translateX(0); }
+            .nav-links a { font-size: 1.4rem; color: var(--text-primary); }
+            .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
+            .page-hero { padding: 8rem 1.5rem 3rem; }
+            .main-content { padding: 1.5rem 1.5rem 5rem; }
+            .products-grid { grid-template-columns: 1fr; }
+            .help-banner { flex-direction: column; padding: 2rem; }
+            .help-banner-actions { width: 100%; }
+            .btn { width: 100%; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .logo-text { font-size: 1.2rem; }
+            nav { padding: 0.8rem 1rem; }
+        }
+
+        /* HIDDEN for search */
+        .product-card.hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header id="header">
+        <nav>
+            <a href="index.html" class="logo-text">Innovative X</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#products">Products</a></li>
+                <li><a href="helpdesk.html" class="active">Helpdesk</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <div class="page-hero">
+        <div class="hero-tag">🛟 Support Center</div>
+        <h1 class="page-title">How can we help?</h1>
+        <p class="page-subtitle">Browse guides and articles for all Innovative X products. Find answers, step-by-step tutorials, and tips to get the most out of your solution.</p>
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-bar" id="searchBar" placeholder="Search for a product or topic...">
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <p class="section-label">📦 All Products</p>
+
+        <div class="products-grid" id="productsGrid">
+
+            <!-- Live Bullion View Web App -->
+            <a href="helpdesk-live-bullion-web-app.html" class="product-card" data-name="live bullion view web app gold silver mcx prices">
+                <div class="product-icon-wrap">🪙</div>
+                <div class="product-info">
+                    <h3>Live Bullion View Web App</h3>
+                    <p>Real-time MCX gold, silver & coin price display for your bullion business website.</p>
+                    <div class="product-meta">
+                        <span class="product-badge badge-new">New</span>
+                        <span class="badge-articles">📄 Articles available</span>
+                    </div>
+                </div>
+                <span class="arrow-icon">→</span>
+            </a>
+
+            <!-- Placeholder for future products -->
+            <!-- Add more product cards here as you launch new products -->
+
+        </div>
+
+        <!-- Need More Help -->
+        <div class="help-banner">
+            <div class="help-banner-text">
+                <h3>Still need help? 🤝</h3>
+                <p>Can't find what you're looking for? Our team is available Monday–Saturday, 9AM–6PM IST.</p>
+            </div>
+            <div class="help-banner-actions">
+                <a href="mailto:info@innovativex.in" class="btn btn-primary">📧 Email Us</a>
+                <a href="tel:+918196962922" class="btn btn-secondary">📱 Call Us</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Innovative X. All rights reserved. | We Design • We Build • You Grow</p>
+    </footer>
+
+    <button class="scroll-top" id="scrollTop">↑</button>
+
+    <script>
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isOpen = navLinks.classList.toggle('active');
+            mobileMenuBtn.textContent = isOpen ? '✕' : '☰';
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+        navLinks.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+                document.body.style.overflow = '';
+            });
+        });
+        document.addEventListener('click', function(e) {
+            if (navLinks.classList.contains('active') &&
+                !navLinks.contains(e.target) && e.target !== mobileMenuBtn) {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Header scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Scroll to top
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', function() {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+        });
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Search
+        document.getElementById('searchBar').addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            document.querySelectorAll('.product-card').forEach(function(card) {
+                const name = card.getAttribute('data-name') || '';
+                card.classList.toggle('hidden', query !== '' && !name.includes(query));
+            });
+        });
+    </script>
+</body>
+</html>
